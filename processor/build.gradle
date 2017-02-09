@@ -1,0 +1,11 @@
+apply plugin: 'kotlin'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "com.google.auto.service:auto-service:$auto_service_version"
+    kapt "com.google.auto.service:auto-service:$auto_service_version"
+}

@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+def moduleFlavor = 'debug'
+
+kapt {
+    generateStubs = true
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+
+    defaultPublishConfig moduleFlavor
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    kapt project(':processor')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "com.google.dagger:dagger:$dagger_version"
+}
+
+afterEvaluate {
+    android.libraryVariants.all { variant ->
+        if (variant.buildType.name == moduleFlavor) {
+            def kotlinGenerated = file("$buildDir/tmp/kapt/${variant.name}/kotlinGenerated")
+            variant.addJavaSourceFoldersToModel(kotlinGenerated)
+            return
+        }
+    }
+}

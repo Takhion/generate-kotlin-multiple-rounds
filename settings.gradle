@@ -1,0 +1,3 @@
+include ':processor'
+include ':module'
+include ':app'
